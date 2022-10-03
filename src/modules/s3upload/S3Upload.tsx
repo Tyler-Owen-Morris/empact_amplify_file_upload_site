@@ -27,7 +27,7 @@ const Upload = () => {
 
       if (data !== "oops") {
         data.forEach((file) => {
-          let actualFile = files.filter((f) => f.name === file.name)[0];
+          const actualFile = files.filter((f) => f.name === file.name)[0];
 
           fetch(file.url, {
             method: "PUT",
@@ -47,7 +47,7 @@ const Upload = () => {
 
     // console.log(formData.entries());
 
-    let filesMapped = files.map((f) => ({
+    const filesMapped = files.map((f) => ({
       name: f.name,
       type: f.type,
     }));
@@ -126,6 +126,8 @@ const Upload = () => {
           onDragOver={(e) => handleDragDropEventCustom(e)}
           onDrop={(e) => {
             handleDragDropEvent(e as unknown as Event);
+            // We have to TS ignore because the types on the third party library are incorrect
+            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
             // @ts-ignore
             setFiles(e, "a");
           }}
@@ -146,6 +148,8 @@ const Upload = () => {
             multiple
             style={{ display: "none" }}
             onChange={(e) => {
+              // We have to TS ignore because the types on the third party library are incorrect
+              // eslint-disable-next-line @typescript-eslint/ban-ts-comment
               // @ts-ignore
               setFiles(e, "a");
               if (inputRef.current && inputRef.current.value != null) {

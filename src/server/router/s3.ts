@@ -24,14 +24,14 @@ export const s3Router = createProtectedRouter().mutation("getPresignedUrls", {
   async resolve({ ctx, input }) {
     try {
       //generatePreSignedPutUrl("REPLACE FILE NAME", "REPLACE FILE TYPE");
-      let result: FileType[] = [];
+      const result: FileType[] = [];
 
       for (let i = 0; i < input.files.length; i++) {
         const f = { ...input.files[i] };
 
         if (!f.name || !f.type) continue;
 
-        let preSignedUrl = await generatePreSignedPutUrl(f.name, f.type);
+        const preSignedUrl = await generatePreSignedPutUrl(f.name, f.type);
 
         if (typeof preSignedUrl !== "string") continue;
 

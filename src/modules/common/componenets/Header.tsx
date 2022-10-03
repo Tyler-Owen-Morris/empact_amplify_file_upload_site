@@ -2,10 +2,10 @@ import { signIn, signOut, useSession } from "next-auth/react";
 import { useRouter } from "next/router";
 
 export default function Header() {
-  let { data: session, status } = useSession();
-  let router = useRouter();
+  const { status } = useSession();
+  const router = useRouter();
 
-  let handleAuthButton = () => {
+  const handleAuthButton = () => {
     if (status == "authenticated") {
       signOut();
     } else {
@@ -13,7 +13,7 @@ export default function Header() {
     }
   };
 
-  let handleMenuButton = (route: string) => {
+  const handleMenuButton = (route: string) => {
     router.push(route);
   };
 
