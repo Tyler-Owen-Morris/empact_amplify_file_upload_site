@@ -20,6 +20,7 @@ export const serverSchema = z.object({
   S3_BUCKET: z.string(),
   S3_REGION: z.string(),
   URL_EXPIRE_TIME: z.string(),
+  
 });
 
 /**
