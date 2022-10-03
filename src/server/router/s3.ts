@@ -52,8 +52,8 @@ export const s3Router = createProtectedRouter().mutation("getPresignedUrls", {
 });
 
 AWS.config.update({
-  accessKeyId: env.AWS_ACCESS_KEY_ID,
-  secretAccessKey: env.AWS_SECRET_ACCESS_KEY,
+  accessKeyId: env.S3_AWS_ACCESS_KEY_ID,
+  secretAccessKey: env.S3_AWS_SECRET_ACCESS_KEY,
 });
 
 const myBucket = new AWS.S3({
