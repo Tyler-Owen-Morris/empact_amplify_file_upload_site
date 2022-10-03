@@ -1,5 +1,5 @@
 import { signIn, useSession } from "next-auth/react";
-import React, { useRef, useState } from "react";
+import React, { DragEventHandler, useRef, useState } from "react";
 import useFileUpload from "react-use-file-upload";
 import { trpc } from "../../utils/trpc";
 
@@ -17,7 +17,7 @@ const Upload = () => {
     removeFile,
   } = useFileUpload();
 
-  const inputRef = useRef();
+  const inputRef = useRef<HTMLInputElement>(null);
   const { data: session } = useSession();
   const [isUploading, setIsUploading] = useState(false);
 
@@ -38,7 +38,7 @@ const Upload = () => {
     },
   });
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e: any) => {
     e.preventDefault();
 
     // setIsUploading(true);
@@ -67,6 +67,10 @@ const Upload = () => {
     // } catch (error) {
     //   console.error("Failed to submit files.");
     // }
+  };
+
+  const handleDragDropEventCustom = (e: React.DragEvent<HTMLDivElement>) => {
+    handleDragDropEvent(e as unknown as Event);
   };
 
   return (
@@ -118,13 +122,18 @@ const Upload = () => {
         <div
           // css={DropzoneCSS}
           className="min-w-[400px] h-full min-h-[400px] bg-white text-black p-2 border-8 border-black border-dotted cursor-pointer flex flex-col justify-center items-center"
-          onDragEnter={handleDragDropEvent}
-          onDragOver={handleDragDropEvent}
+          onDragEnter={(e) => handleDragDropEventCustom(e)}
+          onDragOver={(e) => handleDragDropEventCustom(e)}
           onDrop={(e) => {
-            handleDragDropEvent(e);
+            handleDragDropEvent(e as unknown as Event);
+            // @ts-ignore
             setFiles(e, "a");
           }}
-          onClick={() => inputRef.current.click()}
+          onClick={() => {
+            if (inputRef && inputRef.current) {
+              inputRef.current.click();
+            }
+          }}
         >
           <p>Drag and drop files here</p>
 
@@ -137,8 +146,11 @@ const Upload = () => {
             multiple
             style={{ display: "none" }}
             onChange={(e) => {
+              // @ts-ignore
               setFiles(e, "a");
-              inputRef.current.value = null;
+              if (inputRef.current && inputRef.current.value != null) {
+                inputRef.current.value = "";
+              }
             }}
           />
         </div>
