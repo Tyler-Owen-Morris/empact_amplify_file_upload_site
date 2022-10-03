@@ -14,7 +14,7 @@ export default async function register(
   try {
     const parsedBody = bodySchema.parse(req.body);
 
-    let existingUser = await prisma.user.findFirst({
+    const existingUser = await prisma.user.findFirst({
       where: {
         email: parsedBody.email,
       },
@@ -24,7 +24,7 @@ export default async function register(
       return res.status(409).json({ error: "Email in use" });
     }
 
-    let newUser = await prisma.user.create({
+    const newUser = await prisma.user.create({
       data: {
         email: parsedBody.email,
         //TODO: Hash passwords

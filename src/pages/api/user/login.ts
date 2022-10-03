@@ -14,7 +14,7 @@ export default async function login(req: NextApiRequest, res: NextApiResponse) {
   try {
     const parsedBody = bodySchema.parse(req.body);
 
-    let existingUser = await prisma.user.findFirst({
+    const existingUser = await prisma.user.findFirst({
       where: {
         email: parsedBody.email,
       },
@@ -29,7 +29,7 @@ export default async function login(req: NextApiRequest, res: NextApiResponse) {
       res.status(200).json({ error: "Incorrect password" });
     }
 
-    let user: Partial<User> = { ...existingUser };
+    const user: Partial<User> = { ...existingUser };
 
     delete user.pw_hash;
 
